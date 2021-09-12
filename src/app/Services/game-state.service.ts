@@ -11,12 +11,12 @@ export class GameStateService {
   chosenTileStream$ = new Observable<number>();
 
   constructor() {
-    this.seedTileArray$();
+    this.tileArrayStream$ = this.seedTileArray$();
   }
 
   seedTileArray$ = () => {
     const arr = [...Array(75).keys()];
-    arr.forEach(x => this._tileArrayStream.next(x));
+    return from(arr);
   }
 
   chooseGameTiles = (tiles: number[], gameDifficulty: number) => {
