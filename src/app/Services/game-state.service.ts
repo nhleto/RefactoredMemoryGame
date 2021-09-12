@@ -1,22 +1,40 @@
 import { Injectable } from '@angular/core';
-import { from, Observable } from 'rxjs';
+import { BehaviorSubject, from, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GameStateService {
-  tileArrayStream$ = new Observable<number>();
+  // tslint:disable-next-line:variable-name
+  private _tileArrayStream = new BehaviorSubject<number>(0);
+  public readonly tileArrayStream$ = this._tileArrayStream.asObservable();
   chosenTileStream$ = new Observable<number>();
 
   constructor() {
-    this.tileArrayStream$ = this.seedTileArray$();
+    this.seedTileArray$();
   }
 
   seedTileArray$ = () => {
     const arr = [...Array(75).keys()];
-    return from(arr);
+    arr.forEach(x => this._tileArrayStream.next(x));
   }
 
+  chooseGameTiles = (tiles: number[], gameDifficulty: number) => {
+    const chosenTiles: number[] = [];
+    [...Array(gameDifficulty)].map((_, i) => {
+      const x = Math.floor(Math.random() * tiles.length);
+      chosenTiles.push(this.calculateRemainingIndex(x, chosenTiles, tiles));
+    });
+    console.log(chosenTiles);
+  }
 
+  private calculateRemainingIndex = (index: number, tilesArray: number[], tiles: number[]): any => {
+    if (!tilesArray.includes(index)) {
+      return index;
+    } else {
+      const newNumber = Math.floor(Math.random() * tiles.length);
+      return this.calculateRemainingIndex(newNumber, tilesArray, tiles);
+    }
+  }
 
 }
