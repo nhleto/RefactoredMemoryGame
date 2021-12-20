@@ -9,8 +9,9 @@ import { Destroyable } from '../Utility/destroyable';
   styleUrls: ['./tile.component.scss']
 })
 export class TileComponent extends Destroyable implements OnInit {
-  tiles: number[] = [];
-  chosenTiles: number[] = [];
+  private tiles: number[] = [];
+  private chosenTiles: number[] = [];
+  chosen = false;
   @Input() indexOfTile!: number;
 
   constructor(private gameStateService: GameStateService) {
@@ -22,5 +23,7 @@ export class TileComponent extends Destroyable implements OnInit {
       takeUntil(this.destroy$))
       .subscribe(value => this.tiles.push(value));
 
+    this.chosen = this.gameStateService.checkIndexOfTile(this.indexOfTile, this.chosenTiles);
+    console.log(this.chosen)
   }
 }

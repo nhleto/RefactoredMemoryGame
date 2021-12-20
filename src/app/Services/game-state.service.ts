@@ -28,6 +28,13 @@ export class GameStateService {
     return from(chosenTiles);
   };
 
+  // Checks index of current tile against chosen tile array and returns whether
+  // or not that specific tile was chosen
+  checkIndexOfTile(tileIndex: number, tiles: number[]): boolean {
+    console.log(tileIndex, tiles)
+    return tiles.includes(tileIndex);
+  }
+
   private calculateRemainingIndex = (
     index: number,
     tilesArray: number[],
