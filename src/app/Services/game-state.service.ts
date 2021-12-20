@@ -5,19 +5,19 @@ import { BehaviorSubject, from, Observable, of } from 'rxjs';
   providedIn: 'root',
 })
 export class GameStateService {
-  // tslint:disable-next-line:variable-name
-  public readonly tileArrayStream$ = new Observable<number>();
-  chosenTileStream$ = new Observable<number>();
+  public readonly tileStream$ = new Observable<number>();
 
   constructor() {
-    this.tileArrayStream$ = this.seedTileArray$();
+    this.tileStream$ = this.seedTileArray$();
   }
 
+  // Create initial grid size for game
   seedTileArray$ = () => {
     const arr = [...Array(75).keys()];
     return from(arr);
-  };
+  }
 
+  // Choose clickable tiles based on game difficulty
   chooseGameTiles = (tiles: number[], gameDifficulty: number) => {
     const chosenTiles: number[] = [];
     [...Array(gameDifficulty)].map((_, i) => {
@@ -25,7 +25,7 @@ export class GameStateService {
       chosenTiles.push(this.calculateRemainingIndex(x, chosenTiles, tiles));
     });
 
-    return of(chosenTiles);
+    return from(chosenTiles);
   };
 
   private calculateRemainingIndex = (
@@ -39,5 +39,5 @@ export class GameStateService {
       const newNumber = Math.floor(Math.random() * tiles.length);
       return this.calculateRemainingIndex(newNumber, tilesArray, tiles);
     }
-  };
+  }
 }

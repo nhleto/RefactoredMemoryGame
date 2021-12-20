@@ -18,11 +18,12 @@ export class GridComponent extends Destroyable implements OnInit {
   }
 
   ngOnInit(): void {
-    this.gameStateService.tileArrayStream$.pipe(
+    this.gameStateService.tileStream$.pipe(
       takeUntil(this.destroy$))
       .subscribe(value => this.tiles.push(value));
 
-    this.gameStateService.chooseGameTiles(this.tiles, this.gameDifficulty);
+    this.gameStateService.chooseGameTiles(this.tiles, this.gameDifficulty).pipe(
+      takeUntil(this.destroy$))
+      .subscribe(tile => console.log(tile))
   }
-
 }

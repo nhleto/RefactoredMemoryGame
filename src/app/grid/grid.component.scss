@@ -1,12 +1,13 @@
 .square {
     float: left;
     position: relative;
-    width: 7%;
-    padding-bottom: 7%; /* = width for a 1:1 aspect ratio */
+    width: 8%;
+    padding-bottom: 8%; /* = width for a 1:1 aspect ratio */
     overflow: hidden;
+    display: flex;
+    flex-wrap: wrap;
   }
-  
-  .container{
+
+  .container {
     padding: 20px
   }
-  
